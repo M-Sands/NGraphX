@@ -279,6 +279,10 @@ div.nodeEditor .input2d:focus{
     border: 1px white solid;
 }
 
+div.nodeEditor textarea{
+    line-height: 1.2rem;
+}
+
 div.nodeEditor textarea:focus{
     background-color: var(--inputBackgroundFocus);
 }

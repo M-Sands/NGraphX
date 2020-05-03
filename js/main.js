@@ -110,17 +110,25 @@ document.getElementById("searchInput").addEventListener("focusin",function(e){
   focusOn("toolbar");
 });
 
+document.getElementById("toolbar").addEventListener("keydown",function(e) {
+    //Pressing escape will go back to the node Graph
+    if(e.key === "Escape"){
+        focusOn("nodeVis"); 
+        document.getElementById("nodeVis").focus();
+    }
+});
+
 document.getElementById("searchInput").addEventListener("keydown",function(e) {
     if(e.key === "Enter"){
         //console.log("search started by enter");
         searchNetwork();
         focusOn("searchResults");
     }
-    //Pressing escape will go back to the node Graph
-    if(e.key === "Escape"){
-        focusOn("nodeVis"); 
-        document.getElementById("nodeVis").focus();
-    }
+    // //Pressing escape will go back to the node Graph
+    // if(e.key === "Escape"){
+    //     focusOn("nodeVis"); 
+    //     document.getElementById("nodeVis").focus();
+    // }
 });
 
 document.getElementById("resultList").addEventListener("keydown",function(e){
