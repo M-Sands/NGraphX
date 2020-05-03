@@ -1,0 +1,105 @@
+
+<!--
+ NGraphX 
+ Your knowledge in a graph! 
+ Copyright (C) 2020 Malte Sandschulte studio(at)sandschulte.com
+ All rights reserved.
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.-->
+
+<script src="d3/d3.min.js"  charset="utf-8"></script>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <title>NGraphX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link href="css/style.css" rel="stylesheet" media="all">
+    <link href="css/graph.css" rel="stylesheet" media="all">
+</head>
+<body>
+	<div class="mainWrapper">
+        <div class="toolbar" id="toolbar">
+            <div class="searchBar">
+                <input class="input2d" type="text" placeholder="Search for..." size="50" name="searchInput" id="searchInput">
+                <select class="dropDown" name="searchMode" id="searchMode" size="1">
+                    <option>Everything</option>
+                    <option>Names</option>
+                    <option>Tags</option>
+                    <option>Content</option>
+                </select>
+                <input class="button2d buttonHighlight" type="button" value="Go" id="startSearch"/>
+            </div>
+            <div class="buttonBar">
+                <input class="button2d" type="button" value="Add Node" id="addNode" />
+                <input class="button2d" type="button" value="Delete Node" id="deleteNode" />
+                <input type="file" name="chooseJSONFIle" id="chooseJSONFile" style="display:none;" onchange="loadNodes(this)"/>
+                <input class="button2d" type="button" value="Load Network" id="uploadNodes" />
+                <input class="button2d" type="button" value="Save Network" id="saveLocally" />
+                <input class="inactiveButton" type="button" value="Save Online" id="saveOnline" />
+                <input class="button2d" type="button" value="Toggle Editor" id="toggleEditor"/>
+                <a href="help.html" target="blank" class="button2d" type="button" value="Help" id="helpButton"/>Help/About</a>
+            </div>
+        </div>
+        <!-- WRAPPER FOR OUR EDITORS -->
+        <div class="secondaryWrapper" id="secondaryWrapper">
+            <!-- NODE EDITOR -->
+            <div class="nodeEditorInactive" id="nodeEditor">
+                    <div class="flexRowDiv">
+                        <label class="nELabel" for="nodeName">Node :</label>
+                        <input class="input2d" type="text" name="nodeName" id="nodeName" tabindex="1">
+                    </div>
+                    <div class="flexRowDiv">
+                        <label class="nELabel" for="parentName">Parent :</label>
+                        <input class="input2d" type="text" name="parentName" id="parentName" tabindex="-1">
+                        <datalist id="parentACList"></datalist>
+                    </div>
+                    <div class="flexRowDiv">
+                        <label class="nELabel">Tags :</label>
+                        <div class="tagContainer" id="tagContainer">
+                            <input class="tagButton tagButtonPlus" type="button" id="addTagButton" value="+" tabindex="2">
+                        </div>
+                    </div>
+                    <div class="flexRowDiv">
+                        <label class="nELabel" for="nodeContent">Content :</label>
+                        <textarea id="nodeContent" class="contentTextArea"  rows="10" tabindex="3"></textarea>
+                    </div>
+                <!-- THE SEARCH RESULT DIV, HIDDEN -->
+                <div class="searchResults" id="searchResults" style="display:none" tabindex="-1">
+                    <div class="flexRowDiv">
+                        <h2>Search Results</h2>
+                        <input class="button2d" type="button" id="closeSearchResults" value="Close Results" />
+                    </div>
+                    <div id="results" class="flexColDiv">
+                        <ul class="resultList" id="resultList">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- THE GRAPH AREA -->
+            <div class="nodeVis" id="nodeVis" tabindex="0">
+                <div class="svgContainer" id="svgContainer" tabindex="4"></div>   
+            </div>
+        </div> <!-- Editor wrapper-->
+    </div> <!--main Wrapper-->
+    <div class="footer">
+        <small>NGraphX - Copyright Malte Sandschulte 2020</small> 
+    </div>
+<script src="js/variables.js"></script>
+<script src="js/graph.js"></script>
+<script src="js/jsonManip.js"></script>
+<script src="js/main.js"></script>
+<script>document.getElementById("searchInput").focus();</script>
+</body>
+</html>

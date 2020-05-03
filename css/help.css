@@ -1,0 +1,175 @@
+/**********************************************************************
+*
+* NGraphX 
+* Your knowledge in a graph! 
+* Copyright (C) 2020 Malte Sandschulte studio(at)sandschulte.com
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*
+************************************************************************/
+
+/** CSS Variables **/
+:root {
+    
+    --backgroundColour: rgb(224, 224, 224);
+    --text: rgb(54, 54, 54);
+}   
+html {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--dark);
+}
+
+body {
+    background: var(--backgroundColour);
+    margin: 10px auto;
+    line-height: 1.2;
+    min-height: 98%;
+    max-width: 90%;
+    
+}
+
+.footer {
+    text-align: center;
+    padding-right: 0.5rem;
+    font-size:1rem;
+}
+
+
+.docWrap {
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    margin: 2rem;
+    padding:1rem;
+    border: solid white 2px;
+
+}
+
+.separator {
+    color: white;
+    height: 1px;
+    width: 100%;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    margin:0.5rem;
+    line-height: 1.5rem;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    margin:0.5rem;
+    line-height: 1.5rem;
+}
+
+.centerCenter {
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.topCenter {
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content:center;
+}
+
+.shortcutsRow{
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.one{
+    flex: 1;
+}
+
+.two{
+    flex:2;
+}
+
+.three{
+    flex:3;
+}
+
+.img75 {
+    display: flex;
+    padding: 0.5rem;
+    max-width:75%;
+    height:auto;
+}
+
+.img100 {
+    display: flex;
+    padding: 0.5rem;
+    max-width:100%;
+    height:auto;
+}
+
+
+td:nth-child(even){
+    padding-left:15px;
+}
+
+h1 {
+    font-size: 3.2rem;
+    text-align: center;
+    margin-bottom: 0.85rem;
+}
+
+h2 {
+    text-align: center;
+    font-size: 2rem;
+}
+h3.subtitle {
+    margin: 0rem;
+    text-align: center;
+}
+
+p {
+    font-size:1rem;
+    padding: 0.5rem;
+    line-height: 1.5rem;
+}
+
+p.concept{
+    font-weight: bold;
+    font-size: 1.2rem;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+}
+
+p.button {
+    flex:inherit;
+    background-color: rgb(231, 231, 231);
+    border: 2px solid rgb(54, 54, 54);
+    border-radius: 5px;
+    padding: 0.4rem;
+    margin:0.2rem;    
+    font-weight: 500;
+    text-align: center;
+}
+
+.key{
+    font-weight:600;
+}
+
+.red {
+    color:rgb(160, 12, 12);
+}

@@ -1,0 +1,396 @@
+<!--
+ NGraphX 
+ Your knowledge in a graph! 
+ Copyright (C) 2020 Malte Sandschulte studio(at)sandschulte.com
+ All rights reserved.
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.-->
+
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <meta charset="utf-8">
+    <title>NGraphX - Help</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link href="css/help.css" rel="stylesheet" media="all">
+</head>
+<body>
+    <div class="docWrap">
+        <div class="column">
+            <h1>NGraphX</h1>
+            <h3 class="subtitle">Your knowledge network</h3>
+            <div class="row one centerCenter">
+                <img class="img75" src="img/main.png" alt="Overview of the NodeGraph">
+            </div>
+            <div class="row">
+                <div class="column one topCenter">
+                    <p class="concept">Welcome to NGraphX</p>
+                    <p>NGraphX is a node editor optimized for quick interaction which allows you to map out any information you wish
+                        in a hierarchical manner. By laying out nodes in hierarchies you create an editable, navigable map of knowledge that can
+                            be searched for different criteria of your nodes and their content.Although being run in a webbrowser NGraphX works offline, no data is being sent anywhere. 
+                            Your data resides inside your browsers local storage. Your data is yours: no strings attached!</p>
+                </div>
+                <div class="column one">
+                    <p class="concept">About</p>
+                    <p> NGraphX is written and maintained by Malte Sandschulte (studio at sandschulte.com)<br>
+                        The Github repository resides <a target="blank" href="http://github.com/">here</a><br>
+                        NGraphX is published under the GNU GPLv3.<br>
+                        NGraphX uses the amazing D3JS by Mike Bostock. Have a look<a href="http://www.d3js.org" target="blank">here</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <hr class="separator">
+        <h2>User guide</h2>
+        <hr class="separator">
+        <div class="row">
+            <div class="column one">
+                <p class="concept">Basics</p>
+                <p>There is a couple of basic concepts you need to understand in order to work with NGraphX.</p>
+                <ul class="docList">
+                    <li>Every Network (e.g. collection of nodes) has a <b>root</b> node</li>
+                    <li>The root node <b>can not</b> be deleted</li>
+                    <li>The root node <b>can</b> be renamed</li>
+                    <li>Every node <b>needs</b> to have <b>exactly one</b> parent</li>
+                    <li>A node can have as many children as you wish</li>
+                    <li>Nodes can be collapsed to hide their children</li>
+                    
+                </ul>
+            </div>
+            <div class="column one">
+                <p class="concept">"Network"</p>
+                <p>A collection of nodes is what is called a network in NGraphX. A network is always parented below a "root" node. 
+                    You can save your network by pressing <b>"Save Network"</b> in the toolbar. The file that is offered for download when 
+                    you press the save button, will always have the name of your "root" node. Ususally browsers increment the filename when the file 
+                    already exists: <br>
+                    <i>rootName.json -> rootName(1).json -> rootName(2).json</i><br>This makes it easy to keep incremental backups
+                    of your node network - which is very recommended! <br><b class="red">NGraphX is beta software. Save often!</b> 
+                </p>
+            </div>            
+        </div>
+        <div class="row">
+            <div class="column one">
+                <p class="concept">Where is my data?</p>
+                <p>Your data is inside of your browser's local storage!<br>
+                That is pretty good except for one thing: <i>you have to take care of it!</i><br>
+                <b>Make sure to save your Network file before deleting browser data like cookies / storage etc.</b>
+                The local storage is a special storage area of your webbrowser that websites can use on your computer. Every website can only access the local 
+                storage for it's own URL. Read up on the local storage <a target="blank" href="https://en.wikipedia.org/wiki/Web_storage">here</a>.
+            </p>
+            </div>
+            <div class="column one">
+                <p class="concept">UX</p>
+                <p>The User Experience Design for NGraphX is based on the concept of quick interaction and intelligent switching of focus inside the software. 
+                    When you add a node for instance, the first thing you'll want to - always! - do, is to give the node a name, that is why it is automatically
+                    triggered to give focus to the Node Name input field after adding a node. No need to touch the mouse! With focus inside the Graph Editor
+                    press <i class="key">Enter</i> or <i class="key">Shift+LMB</i> somewhere in the empty and start typing as focus is switched to the Node Editor.
+                </p>
+            </div>
+        </div>
+        <hr class="separator">
+
+        <!-- USER INTERFACE -->
+        <div class="row">
+            <div class="column one">
+                <h2>User Interface</h2>
+                <p>NGraphX's UI consists of three parts. You will use them all three a lot and you can navigate either with the keyboard
+                    or with the mouse. Keyboard only use makes the use of NGraphX extremely quick!
+                </p>
+                <ul class="docList">
+                    <li>The search and toolbar at the top (1)</li>
+                    <li>The node editor on the left (2)</li>
+                    <li>The graph area on the right (3)</li>
+                </ul>
+            </div>
+            <div class="column one">
+                <img class="img100" src="img/editors.jpg" alt="Editors">
+            </div>
+        </div>
+        <hr class="separator">
+
+        <!-- SEARCH AND TOOLBAR -->
+        <!-- <div class="column"> -->
+            <div class="column one">
+                <p class="concept">UI - Search and Toolbar</p>
+                <div class="column one centerCenter">
+                    <img class="img75" src="img/search_toolbar.png" alt="Search and toolbar">
+                    <i>Search and Toolbar. The Search Input field can be reached by pressing <i class="key">s</i> in the Graph Editor</i>
+                </div>
+                <div class="row one centerCenter">
+                    <div class="col centerCenter">
+                        <table>
+                            <tr>
+                                <td><p class="button">TAB</p></td>
+                                <td>Moves focus from search field to search options to Go Button and then through second row buttons</td>
+                            </tr>
+                            <tr>
+                                <td><p class="button">Enter</p></td>
+                                <td>(inside the search input) Starts search</td>
+                            </tr>
+                            <tr>
+                                <td><p class="button">Escape</p></td>
+                                <td>Focuses the Node Graph</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row one centerCenter">
+                    <div class="column two">
+                        <p>The search and toolbar allows you to search your network and provides several functions in the form of buttons.
+                             As all areas of NGraphX, the search and toolbar will be higlighted yellow if your focus is inside of it. Entering a 
+                             search term and pressing <i>Enter</i> will start the search as will pressing the big yellow <i>Go</i> button.
+                        </p>
+                    </div>
+                    <div class="column two">
+                        <p>Clicking on "Everything" will open a drop down menu allowing you to restrict your search to either names, tags, content 
+                            or not to restrict it and search for the term entered in everything at once. Searching for "he" will find "hello" "heaven"
+                            "he said" and so forth. Search results will be displayed to you in the lower part of the node editor.
+                        </p>
+                    </div>
+                </div>
+                <div class="column one centerCenter">
+                    <img class="img75" src="img/search_options.png" alt="Search options">
+                    <i>To quickly change the search modes, <i class="key">Tab</i> until focus is on the Search Mode field and then press 
+                        <i class="key">Arrow Up</i> or <i class="key">Arrow Down</i>.</i> 
+                </div>
+            </div>
+            <hr class="separator">
+            
+            <!-- BUTTONS -->
+            <p class="concept">UI - Buttons</p>
+            <div class="row">                    
+                <div class="column two">
+                    <ul class="docList">
+                        <li>Add Node/Add Child - Adds a new node to the network</li>
+                        <li>Delete Node - Removes the currently selected node</li>
+                        <li>Load Network - Choose a file to load</li>
+                        <li>Save Network - Save the current network a a file on your disk</li>
+                    </ul>
+                </div>
+                <div class="column two">
+                        <ul class="docList">
+                            <li>Save Online - Not yet implemented / will allow you to save on a webserver</li>
+                            <li>Toggle Editor - Toggles the node editor on/off to maximize the graph area</li>
+                            <li>Help - Opens this documentation</li>
+                        </ul>
+                </div>
+            </div>
+            <hr class="separator">
+
+            <!-- NODE EDITOR -->
+            <p class="concept">UI - Node Editor</p>
+            <div class="row">                    
+                <div class="column one">
+                    <!-- <i>Shortcuts</i> -->
+                    <table>
+                        <tr>
+                            <td><p class="button">TAB</p></td>
+                            <td>Moves focus from Node's name to tags to content and back to the graph editor</td>
+                        </tr>
+                        <tr>
+                            <td><p class="button">Enter</p></td>
+                            <td>(With focus on the Tag "+" button) creates an input field to enter a tag</td>
+                        </tr>
+                        <tr>
+                            <td><p class="button">Ctrl + Double click</p></td>
+                            <td>Removes the clicked tag</td>
+                        </tr>
+                    </table>
+                    <p>The node editor gets activated as soon as you select a node in the graph editor. Once activated you can edit the contents
+                        of your nodes inside this editor. Changing the node's name or any data inside this editor will toggle an automatic save
+                        of your network to the local storage. 
+                    </p>
+                    <b>Change the nodename</b>
+                    <p>Simply click inside the input field behind "Node" and enter the new name. If you wish to cancel your change, press
+                        <i class="key">escape</i>. If you wish to accept the change, leave the input field or press enter - it will get saved
+                        both ways.
+                    </p>
+                    <b>Adding or removing tags</b>
+                    <p>To add a tag click inside the orange "+" button or press <i class="key">enter</i> when it has focus! An input will appear and you can 
+                        enter the tag you wish to give this node. To remove a tag hold <i class="key">Ctrl</i> and perform a <i class="key">double click</i>
+                        on the tag.
+                    </p>
+                    <b>Editing a tag</b>
+                    <p>Editing a tag means changing it from "recipE" to "recipe" for instance. If you edit a tag the tag will be changed on all nodes that 
+                        use this tag! All nodes using "recipE" as a tag will now use "recipe" instead! Editing a tag is only a good idea if you misspelled 
+                        something our you want to recategorize your data, for instance from "recipe" to "dish". 
+                    </p>
+                    <b>Content</b>
+                    <p>Nodes can have content attached to them. Click inside the textfield and enter any information you wish. On exitting the field 
+                        the information will be saved.</p>
+                </div>
+                <div class="column one centerCenter">
+                    <img class="img75" src="img/nodeEditor.png" alt="Overview of the NodeGraph">
+                    <i>Node Editor displaying the information of the node "Data"</i>     
+                </div>
+            </div>
+            <hr class="separator">
+            
+            <!-- SEARCH RESULTS -->
+            <p class="concept">UI - Search Results</p>
+            <div class="row">
+                <div class="column one">
+                    <table>
+                        <tr>
+                            <td><p class="button">Arrow Up</p></td>
+                            <td>Focuses previous search result</td>
+                        </tr>
+                        <tr>
+                            <td><p class="button">Arrow Down</p></td>
+                            <td>Focuses next search result</td>
+                        </tr>
+                        <tr>
+                            <td><p class="button">Arrow Right</p></td>
+                            <td>Focuses Graph Editor</td>
+                        </tr>
+                        <tr>
+                            <td><p class="button">Enter</p></td>
+                            <td>Selects currently focused search result and centers it in the graph</td>
+                        </tr>
+                    </table>
+                    <p>After hitting <i class="key">Go</i> or pressing <i class="key">Enter</i> in the search field the search results will be displayed.
+                    Focus will automatically switch to the first element of the results. You can switch between the search results with the <i class="key">Arrow Up</i>
+                        and <i class="key">Arrow Down</i> keys, select a result with <i class="key">Enter</i> and switch focus back to the graph editor with 
+                        <i class="key">Arrow Right</i>. Clicking on <i class="key">Close Results</i> will close the search results.</p> 
+                </div>
+                <div class="column one centerCenter">
+                    <img class="img75" src="img/searchResults.png" alt="Overview of the NodeGraph">
+                    <i>The Search Results with focus on the first result</i>      
+                </div>
+            </div>
+            <hr class="separator">
+            
+            <!-- GRAPH EDITOR -->
+            <p class="concept">UI - Graph Editor</p>
+            <div class="row">
+                <div class="column one">
+                    <div class="column one">
+                        <table>
+                            <tr>
+                                <td><p class="button">e</p></td>
+                                <td>(Only with a selected node) Focuses the node editor</td>
+                            </tr>
+                            <tr>
+                                <td><p class="button">s</p></td>
+                                <td>Focuses the search input</td>
+                            </tr>
+                            <tr>
+                                <td><p class="button">Arrow up</p></td>
+                                <td>Selects parent node</td>
+                            </tr>
+                            <tr>
+                                <td><p class="button">Arrow down</p></td>
+                                <td>Selects child node</td>
+                            </tr>
+                            <tr>
+                                <td><p class="button">Arrow left</p></td>
+                                <td>Selects left sibling node</td>
+                            </tr>
+                            <tr>
+                                <td><p class="button">Arrow right</p></td>
+                                <td>Selects right sibling node </td>
+                            </tr>
+                            <tr>
+                                <td><p class="button">Numpad +</p></td>
+                                <td>Collapses/Uncollapses selected node</td>
+                            </tr>
+                            <tr>
+                                <td><p class="button">Double click</p></td>
+                                <td>Collapses/Uncollapses selected node</td>
+                            </tr>
+                            <tr>
+                                <td><p class="button">Enter</p></td>
+                                <td>Add a new node</td>
+                            </tr>
+                            <tr>
+                                <td><p class="button">Shift + LMB</p></td>
+                                <td>Add a new node</td>
+                            </tr>
+                            <tr>
+                                <td><p class="button">Del</p></td>
+                                <td>Delete selected node</td>
+                            </tr>
+                            <tr>
+                                <td><p class="button">Ctrl + Double click</p></td>
+                                <td>Delete selected node</td>
+                            </tr>
+                            
+                        </table>
+                    </div>
+                </div>
+                <div class="column one centerCenter">
+                    <img class="img100" src="img/graphEditor.png" alt="Graph Editor with focus">
+                    <i>The Graph Editor has focus - orange outline</i>   
+                </div>
+            </div> 
+
+            <div class="row">           
+                <div class="column one">
+                    <p>The graph editor lets you explore the network by collapsing, uncollapsing and navigating the node graph.
+                        The selected node is highlighted in orange and collapsed nodes have a blue outline. In the image on the right
+                        "Nodes" is collapsed, double clicking it, will uncollapse it's children. "Toolbars" is the selected node. Double clicking 
+                        "Toolbars" would collapse it. <br><br>
+                        <b><i>PRO TIP:</i></b> Navigate the graph really quickly by using your keyboards arrow keys! In the right image
+                        pressing <i class="key">Arrow Down</i> would make "Graph Editor" the selected node, and then using <i class="key">Arrow Right</i>
+                        would switch to "Node Editor". <b> Try it out! </b>
+                    </p>
+                </div>
+                    <div class="column one centerCenter">
+                    <img class="img75" src="img/nodeTypes.png" alt="Node types and their colour scheme"> 
+                    <i>The selected node and a collapsed node</i>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column one">
+                    <b>Adding a node</b>
+                    <p>To add a node the quick way make sure the graph editor has focus and press <i class="key">Enter</i>. <br> You can also hold <i class="key">shift</i> and <i class="key">left click</i> somewhere in the empty space of the graph
+                    to add a node.<br>
+                    If you have a node selected the new node will be a child of the selected node! If there is no node selected it will automatically be a 
+                    child of the root node. <b>After the node has been added focus will automatically switch to the node editor and you will be able to 
+                    start typing the name. </b>
+                    </p>
+                    <b>Editing a tag</b>
+                    <p>Editing a tag means changing it from "recipE" to "recipe" for instance. If you edit a tag the tag will be changed on all nodes that 
+                        use this tag! All nodes using "recipE" as a tag will now use "recipe" instead! Editing a tag is only a good idea if you misspelled 
+                        something our you want to recategorize your data, for instance from "recipe" to "dish". 
+                    </p>
+                </div>
+                <div class="column one">
+                    <b>Adding or removing tags</b>
+                    <p>To add a tag click inside the orange "+" button or press <i class="key">Enter</i> when it has focus! An input will appear and you can 
+                        enter the tag you wish to give this node. To remove a tag hold <i class="key">Ctrl</i> and perform a <i class="key">double click</i>
+                        on the tag.
+                    </p>
+                    <b>Content</b>
+                    <p>Nodes can have content attached to them. Click inside the textfield and enter any information you wish. On exitting the field 
+                        the information will be saved.</p>
+                    <b><i>PRO TIP</i></b>
+                    <p>When you add a node in the graph editor, focus will automatically switch to the Node name field. After adding a node, simply enter
+                        the name. If you want to add more information to this node press <i class="key">tab</i> and you will be on the <i class="key">+</i> button. 
+                        Pressing <i class="key">Enter</i> now will activate adding a tag. After pressing enter again to confirm your tag, continue typing as another
+                        input is generated for the next tag! If you do not need another tag, press <i class="key">tab</i> while leaving the input empty, which will take
+                        you to the content field! After entering your content press <i class="key">tab</i> again which will take focus back to the graph editor!<br>
+                        
+                    </p>
+                </div>
+            </div>
+        <!-- </div> -->
+    </div>
+<div class="footer">
+    <small>NGraphX - Copyright: Malte Sandschulte 2020</small> 
+</div>
+    
+</body>
+</html>
