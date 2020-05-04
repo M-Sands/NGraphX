@@ -102,6 +102,7 @@ a.button2d{
     text-align:center;
     text-decoration: none;
 }
+
 .button2d {
     background: var(--buttonBG);
     color: var(--buttonText);
@@ -118,6 +119,36 @@ a.button2d{
     background: var(--buttonHoverBG);
     border:var(--buttonBorder);   
 } 
+
+
+.dropdown {
+    display:grid;
+    flex-direction: column; 
+    position:relative;
+    /* display: grid; */
+    /* grid-gap: var(--gridGap); */
+    /* grid-template-columns:1fr; */ */
+} 
+
+.dropdownContent {
+    display: none;
+    position: absolute;
+    top:2.4rem;
+    left:0.1rem;
+    padding:0.3rem;
+    z-index: 1;
+    background-color: var(--editorBG);
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+
+ .dropdown:hover .dropdownContent{
+    display: inline-block;
+}
+
+.droppedButton {
+    width:100%;
+}
 
 /* GO BUTTON STYLING */
 
@@ -175,7 +206,6 @@ a.button2d{
     grid-gap: var(--gridGap);
     border-radius: 10px;
     padding: 0.75rem;
-    background-color:var(--editorBG);
     grid-column: 1 / 5;
     grid-row: 1 / 2;
     grid-template-areas:
@@ -184,6 +214,7 @@ a.button2d{
     align-self: start;
     border: var(--editorBorder);
     border-color: var(--backgroundColour);
+    background-color:var(--editorBG);
     }
 /*
 .toolbar:focus, .toolbar:hover{
@@ -210,6 +241,7 @@ a.button2d{
     margin:0.1rem;
     font-size: 1rem;
     text-align: center;
+    text-align-last:center;
     color: var(--inputText);
     border-radius: var(--elBorderRadius);
     /* Make the dropdown arrow disappear */

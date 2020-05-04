@@ -19,6 +19,28 @@
 
 ************************************************************************/
 
+function newNetwork(){
+  jsonData = null;
+  toDisplay = null;
+  clearGraph();
+  jsonData = { "name":"root",
+      "id":1,
+      "parentId":0,
+      "content":"Welcome to NGraphX, use the help button to get started!",
+      "contentType":"text",
+      "tags":undefined,
+      "children":undefined,
+      "collapsed":false };
+
+    indexArray.push(1);
+    toDisplay = jsonData;
+    //Create the lenghts array for the nodeNames
+    getNameLengths(jsonData);
+    maxNameLength = (Math.max.apply(Math,nameLengths));//+paddingLR;
+    drawGraph(true,null);
+    centerNode(getD3Node(1).__data__);
+}
+
 /** Loads the JSON file the user has chosen from his pc and parses it
  */
 function loadNodes(input){

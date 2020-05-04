@@ -243,6 +243,14 @@ document.getElementById("toggleEditor").addEventListener("click", function() {
 	toggleEditor("nodeEditor");
     });
 
+document.getElementById("newNetwork").addEventListener("click", function() { 
+    if(confirm("This will delete all current nodes, are you sure?")){
+        newNetwork();
+    }
+    else{
+        return;
+    }
+    });
 
 
 //Closes the search results and displays the node editor again

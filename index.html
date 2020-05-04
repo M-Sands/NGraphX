@@ -48,8 +48,15 @@
                 <input type="file" name="chooseJSONFIle" id="chooseJSONFile" style="display:none;" onchange="loadNodes(this)"/>
                 <input class="button2d" type="button" value="Load Network" id="uploadNodes" />
                 <input class="button2d" type="button" value="Save Network" id="saveLocally" />
-                <input class="inactiveButton" type="button" value="Save Online" id="saveOnline" />
+                <!-- <input class="inactiveButton" type="button" value="Save Online" id="saveOnline" /> -->
                 <input class="button2d" type="button" value="Toggle Editor" id="toggleEditor"/>
+                <div class="dropdown">
+                    <input class="button2d dropBtn" type="button" id="moreOptions" value="More Options"/>
+                    <div class="dropdownContent">
+                        <input class="button2d droppedButton" type="button" value="New Network" id="newNetwork" />
+                        <input class="inactiveButton droppedButton" type="button" value="Delete Hierarchy" id="saveLocally" />
+                    </div>
+                </div>
                 <a href="help.html" target="blank" class="button2d" type="button" value="Help" id="helpButton"/>Help/About</a>
             </div>
         </div>
