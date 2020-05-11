@@ -441,7 +441,7 @@ function checkInline(){
 function activateNodeEditor() {
     document.getElementById("nodeEditor").className="nodeEditor";
     document.getElementById("nodeName").disabled = false;
-    document.getElementById("parentName").disabled = true;
+    // document.getElementById("parentName").disabled = true;
     document.getElementById("addTagButton").disabled = false;
     document.getElementById("nodeContent").disabled = false;
 }
@@ -452,7 +452,7 @@ function deactivateNodeEditor() {
     var tagButton = document.getElementById("addTagButton");
     document.getElementById("nodeEditor").className="nodeEditorInactive";
     document.getElementById("nodeName").disabled = true;
-    document.getElementById("parentName").disabled = true;
+    // document.getElementById("parentName").disabled = true;
     tagButton.disabled = true;
     tagButton.classList.remove("tagButton");
     tagButton.classList.remove("tagButtonPlus");
@@ -467,7 +467,7 @@ function deactivateNodeEditor() {
 function displayNodeInfo() {
     if(selectedNode == undefined) {
         document.getElementById("nodeName").value = "";
-        document.getElementById("parentName").value = "";
+        // document.getElementById("parentName").value = "";
         clearTags();
         addPlusButton();
         document.getElementById("nodeContent").value = "";
@@ -478,12 +478,12 @@ function displayNodeInfo() {
         document.getElementById("nodeName").value = selectedNode.name;
         
         //Display "-" if we currently have root selected, roots parent can not be changed! 
-        if(selectedNode.id == 1) {
-            document.getElementById("parentName").value = "-";
-        }
-        else {
-            document.getElementById("parentName").value = findNodeWithID(jsonData, selectedNode.parentId).name;
-        }
+        // if(selectedNode.id == 1) {
+        //     document.getElementById("parentName").value = "-";
+        // }
+        // else {
+        //     document.getElementById("parentName").value = findNodeWithID(jsonData, selectedNode.parentId).name;
+        // }
 
         //Display the nodes tags
         createTags();
@@ -655,7 +655,7 @@ function addNode_UI() {
         nN = document.getElementById("nodeName");
         nN.value = "";
         nN.focus();
-        document.getElementById("parentName").value="";
+        // document.getElementById("parentName").value="";
         clearTags();
         addPlusButton();
         document.getElementById("nodeContent").value="";
@@ -697,7 +697,7 @@ function addNode_UI() {
         nN = document.getElementById("nodeName");
         nN.value = "";
         nN.focus();
-        document.getElementById("parentName").value= selectedNode.name;
+        // document.getElementById("parentName").value= selectedNode.name;
         clearTags();
         addPlusButton();
         document.getElementById("nodeContent").value="";

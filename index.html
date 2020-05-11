@@ -30,7 +30,7 @@
     <LINK rel="icon" href="img/favicon.ico"> 
 </head>
 <body>
-	<div class="mainWrapper">
+<div class="mainWrapper">
         <div class="toolbar" id="toolbar">
             <div class="searchBar">
                 <input class="input2d" type="text" placeholder="Search for..." size="50" name="searchInput" id="searchInput">
@@ -43,36 +43,53 @@
                 <input class="button2d buttonHighlight" type="button" value="Go" id="startSearch"/>
             </div>
             <div class="buttonBar">
-                <input class="button2d" type="button" value="Add Node" id="addNode" />
-                <input class="button2d" type="button" value="Delete Node" id="deleteNode" />
-                <input type="file" name="chooseJSONFIle" id="chooseJSONFile" style="display:none;" onchange="loadNodes(this)"/>
-                <input class="button2d" type="button" value="Load Network" id="uploadNodes" />
-                <input class="button2d" type="button" value="Save Network" id="saveLocally" />
-                <!-- <input class="inactiveButton" type="button" value="Save Online" id="saveOnline" /> -->
-                <input class="button2d" type="button" value="Toggle Editor" id="toggleEditor"/>
                 <div class="dropdown">
-                    <input class="button2d dropBtn" type="button" id="moreOptions" value="More Options"/>
+                    <input class="button2d dropBtn" type="button" id="moreOptions" value="File"/>
                     <div class="dropdownContent">
-                        <input class="button2d droppedButton" type="button" value="New Network" id="newNetwork" />
-                        <input class="inactiveButton droppedButton" type="button" value="Delete Hierarchy" id="saveLocally" />
+                        <input class="button2d droppedButton" type="button" value="New Network" id="newNetwork"/>
+                        <input class="button2d droppedButton" type="button" value="Save Local File" id="saveLocally"/>
+                        <input type="file" name="chooseJSONFIle" id="chooseJSONFile" style="display:none;" onchange="loadNodes(this)"/>
+                        <input class="button2d droppedButton" type="button" value="Load Local File" id="uploadNodes"/>
+                        <input class="inactiveButton droppedButton" type="button" value="Save To Server" id="saveLocally"/>
+                        <input class="inactiveButton droppedButton" type="button" value="Load From Server" id="saveLocally"/>
                     </div>
                 </div>
+                <div class="dropdown">
+                    <input class="button2d dropBtn" type="button" id="moreOptions" value="Edit"/>
+                    <div class="dropdownContent">
+                        <input class="button2d droppedButton" type="button" value="Add Node" id="addNode"/>
+                        <input class="button2d droppedButton" type="button" value="Delete Node" id="deleteNode"/>
+                        <input class="button2d droppedButton" type="button" value="Delete Branch" id="deleteNode"/>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <input class="button2d dropBtn" type="button" id="moreOptions" value="View"/>
+                    <div class="dropdownContent">
+                        <input class="button2d droppedButton" type="button" value="Zoom To Selected" id="deleteNode"/>
+                        <input class="button2d droppedButton" type="button" value="Uncollapse Branch" id="deleteNode"/>
+                        <input class="button2d droppedButton" type="button" value="Collapse Branch" id="deleteNode"/>
+                        <input class="button2d droppedButton" type="button" value="Collapse All" id="deleteNode"/>
+                        <input class="button2d droppedButton" type="button" value="Uncollapse All" id="deleteNode"/>
+                        <input class="button2d droppedButton" type="button" value="Toggle Editor" id="toggleEditor"/>
+                    </div>
+                </div>
+                <input class="inactiveButton droppedButton" type="button" value="Options" id="saveLocally" />
                 <a href="help.html" target="blank" class="button2d" type="button" value="Help" id="helpButton"/>Help/About</a>
             </div>
         </div>
-        <!-- WRAPPER FOR OUR EDITORS -->
         <div class="secondaryWrapper" id="secondaryWrapper">
-            <!-- NODE EDITOR -->
             <div class="nodeEditorInactive" id="nodeEditor">
                     <div class="flexRowDiv">
                         <label class="nELabel" for="nodeName">Node :</label>
                         <input class="input2d" type="text" name="nodeName" id="nodeName" tabindex="1">
                     </div>
+                    <!--
                     <div class="flexRowDiv">
                         <label class="nELabel" for="parentName">Parent :</label>
                         <input class="input2d" type="text" name="parentName" id="parentName" tabindex="-1">
                         <datalist id="parentACList"></datalist>
                     </div>
+                -->
                     <div class="flexRowDiv">
                         <label class="nELabel">Tags :</label>
                         <div class="tagContainer" id="tagContainer">
@@ -83,7 +100,7 @@
                         <label class="nELabel" for="nodeContent">Content :</label>
                         <textarea id="nodeContent" class="contentTextArea"  rows="10" tabindex="3"></textarea>
                     </div>
-                <!-- THE SEARCH RESULT DIV, HIDDEN -->
+    
                 <div class="searchResults" id="searchResults" style="display:none" tabindex="-1">
                     <div class="flexRowDiv">
                         <h2>Search Results</h2>
@@ -95,12 +112,12 @@
                     </div>
                 </div>
             </div>
-            <!-- THE GRAPH AREA -->
+
             <div class="nodeVis" id="nodeVis" tabindex="0">
                 <div class="svgContainer" id="svgContainer" tabindex="4"></div>   
             </div>
-        </div> <!-- Editor wrapper-->
-    </div> <!--main Wrapper-->
+        </div>
+    </div> 
     <div class="footer">
         <small>NGraphX - Copyright Malte Sandschulte 2020</small> 
     </div>

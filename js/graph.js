@@ -271,6 +271,10 @@ function drawGraph(clear,source) {
   root.y = cHeight/2;
   treeLayout = d3.tree();
   treeLayout.nodeSize([maxNameLength+paddingLR,"100"]);
+  //treeLayout.size([10000,10000]);
+  // treeLayout.separation(function(a,b){
+  //   return 1;
+  // });
   root
     .each(function(d){
       d.tWidth =  Math.floor(getTextWidth(d.data.name,"normal 16px Arial"));
