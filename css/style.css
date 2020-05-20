@@ -60,16 +60,11 @@
 html {
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
-    /* height: 90%; */
-    
     overflow-x: hidden; /* hides the horizontal scrollbar */
-    /* overflow-y: hidden; */
 }
 
 body {
     background: var(--backgroundColour);
-    /* line-height: 1.2; */
-    /* min-height: 95%; */
     padding:0.5rem;
 }
 
@@ -123,12 +118,9 @@ a.button2d{
 
 
 .dropdown {
-    display:grid;
+   display:flex;
     flex-direction: column; 
     position:relative;
-    /* display: grid; */
-    /* grid-gap: var(--gridGap); */
-    /* grid-template-columns:1fr; */ */
 } 
 
 .dropdownContent {
@@ -145,6 +137,7 @@ a.button2d{
 
  .dropdown:hover .dropdownContent{
     display: inline-block;
+    z-index: 100;
 }
 
 .droppedButton {
@@ -187,40 +180,15 @@ a.button2d{
 }
 .input2d:focus {
     background-color: var(--inputBackgroundFocus);
-    /* outline: var(--outlineFocus);   */
 }
 
 .mainWrapper {
-    display: grid;
-    grid-gap: 0.25rem;
+    display: flex;
+    flex-direction: column;
     padding: 0.4rem;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: repeat(8,1fr);
-    /* height: 94%; */
-    /* max-height: 94%; */
+    height: 94%;
 }
 
-/* ########## TOOLBAR ########## */
-
-.toolbar {
-    display: grid;
-    grid-gap: var(--gridGap);
-    border-radius: 10px;
-    padding: 0.75rem;
-    grid-column: 1 / 5;
-    grid-row: 1 / 2;
-    grid-template-areas:
-        'searchBar searchBar searchBar searchBar'
-        'buttonBar buttonBar buttonBar buttonBar';
-    align-self: start;
-    border: var(--editorBorder);
-    border-color: var(--backgroundColour);
-    background-color:var(--editorBG);
-    }
-/*
-.toolbar:focus, .toolbar:hover{
-    border: var(--editorBorder);
-}*/
 
 .editorFocused {
     border: var(--editorBorder) !important;
@@ -228,11 +196,9 @@ a.button2d{
 
 
 .searchBar { 
+    display: flex;
+    flex:1;
     line-height: 1.4rem;
-    display: grid;
-    grid-area: searchBar;
-    grid-gap: var(--gridGap);
-    grid-template-columns: 50% 15% 35%;
     margin-bottom: 0.5rem;
 }
 
@@ -257,20 +223,18 @@ a.button2d{
 }
 
 .buttonBar {
-    grid-area: buttonBar;
-    display: grid;
-    grid-gap: var(--gridGap);
-    grid-template-columns: repeat(8,1fr);
+    display:flex;
+    flex-direction:row;
+    margin-bottom:0.75rem;
 }
 
 /* ######### SECONDARY WRAPPER ############# */
 
 .secondaryWrapper {
-    display: grid;
-    grid-column: 1 / 5;
-    grid-row: 2 / 9;
-    grid-template-columns: 1fr 2fr;
-    /* max-height: 100%; */
+    display:flex;
+    flex-direction:row;
+    height:100%;
+    margin-bottom:0.75rem;
 }
 
 /* ######### NODE EDITOR ############# */
@@ -286,18 +250,9 @@ a.button2d{
     font-size: 1rem;  
     margin-right: 0.5rem;
     min-height: 0; /* flexbox automatically set to min-height: auto thus overflowing it's parent elements! */
+    min-width: 0;
 }
-/*
-.nodeEditor:focus, .nodeEditor:hover {
-    border: var(--editorBorder);
-}
-*/
-/* This class is added to the node editor if its sub elements have focus */
-/*
-.nodeEditorFocused {
-    border: var(--editorBorder);
-}
-*/
+
 div.nodeEditor .nELabel {
     display: flex;
     flex:1;
@@ -325,8 +280,6 @@ div.nodeEditor textarea:focus{
     flex:3;
     flex-wrap: wrap;
     box-sizing: border-box;
-    /* border-style: none;
-    border-width: 0px; */
 }
 
 .tagButton {
@@ -347,7 +300,6 @@ div.nodeEditor textarea:focus{
 .tagButton:hover {
     transition-duration: 300ms;
     background-color: var(--buttonHoverBG);
-    /* font-weight: bold; */
 }
 
 .tagButtonPlus {
@@ -377,14 +329,13 @@ div.nodeEditor textarea:focus{
     display:flex;
     flex:3;
     border-radius: var(--elBorderRadius);
-    /* box-sizing: border-box; */
     border: none;
     background-color: var(--inputBackground);
     padding: var(--paddingTopBottom) var(--paddingLeftRight);
     font-family: inherit;
     font-size: inherit;
     color:var(--inputText);
-    resize:none; 
+    resize:none;
 }
 
 /* ##################################################
@@ -447,11 +398,49 @@ div.nodeEditorInactive textarea {
     padding:0.5rem;
 }
 
+.contentFRowExp {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding:0.5rem;
+    flex:1;
+    align-items: baseline;
+}
+
+.contentFRowCont{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding:0.5rem;
+    align-items: baseline;
+}
+
+.rowOne {
+    flex:1;
+}
+
 .flexColDiv {
     display: flex;
     flex-direction: column;
     overflow: auto;
     /* min-height: 0; */
+}
+
+.colOne{
+    flex:1;
+}
+
+.f1 {
+    flex: 1;
+}
+.f2 {
+    flex: 2;
+}
+.f3 {
+    flex: 3;
+}
+.f4 {
+    flex: 4;
 }
 
 .searchResults {
@@ -465,11 +454,7 @@ div.nodeEditorInactive textarea {
     margin-left: 0.5rem;
     overflow:auto;
 }
-/*
-.searchResults {
-    border: var(--editorBorder);
-}
-*/
+
 .searchResults .button2d {
     flex-grow: 1;
 }
@@ -508,15 +493,6 @@ div.nodeEditorInactive textarea {
     border-color: var(--backgroundColour);
 }
 
-/*
-.nodeVis :focus{
-    border: var(--editorBorder);
-    display: grid;
-    border-radius: 10px;
-    background-color:var(--editorBG);
-}
-
-*/
 .svgContainer {
     outline:none;
     border:0;

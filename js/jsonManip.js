@@ -99,7 +99,7 @@ function initializeData() {
     getNameLengths(jsonData);
     maxNameLength = (Math.max.apply(Math,nameLengths));//+paddingLR;
     drawGraph(true,null);
-    attachClickFunction();
+    //attachClickFunction();
     centerNode(getD3Node(1).__data__);
 }
 
@@ -253,6 +253,7 @@ function toggleChildrenArrays(node,collapse){
     node.children = undefined;
   }
 }
+
 /** Selects a node, handles some UI changes and activates/fills information into the nodeEditor
 * @param {Integer} id Id of the node to make selected 
  */
@@ -456,55 +457,73 @@ function removeTagFromNode(tagToDel){
   createTags();
 }
 
-/** Deletes a node from the node hierarchy. It does this by reparenting all it's possible children to the parent node of the 
+/** Deletes a node from the node graph. It does this by reparenting all it's possible children to the parent node of the 
  * node to delete. 
+ * @param  {Boolean} recursive If set to true deletes the selected node and all it's children.
  */
-function deleteNodeFromHierarchy() {
+function deleteNodeFromGraph(recursive) {
   if(!selectedNode){ return; }
  
   var parentNode = findNodeWithID(jsonData,selectedNode.parentId);
-  
-  //Does the node in question have children? , if so make it's children, children of it's parent! 
-  //this includes setting the appropriate parentId for the child and adding it to it's new parents array
-  
-  //Check if the selected node and the parent node are collapsed and if yes, rename the arrays to match
-  var nColl = selectedNode.collapsed;
-  if(nColl){
-    selectedNode.children = selectedNode._children;
-  }
-  var pColl = parentNode.collapsed;
-  if(pColl){
-    parentNode.children = parentNode._children;
+  if(!parentNode){
+    throw ("Fatal error: no parent found!");
   }
 
-  if(selectedNode.children) {
-    for(child of selectedNode.children) {
-      //set parent id
-      child.parentId = selectedNode.parentId;
-      //Add node to parents children array
-      parentNode.children[parentNode.children.length] = child;
+  //Deletes only selected node 
+  if(!recursive){
+    //Does the node in question have children? , if so make it's children, children of it's parent! 
+    //this includes setting the appropriate parentId for the child and adding it to it's new parents array
+    toggleChildrenArrays(selectedNode,false);
+    var collapsed = toggleChildrenArrays(parentNode,false);
+
+    if(selectedNode.children) {
+      for(child of selectedNode.children) {
+        //set parent id
+        child.parentId = selectedNode.parentId;
+        //Add node to parents children array
+        parentNode.children[parentNode.children.length] = child;
+      }
+    }
+      
+    //remove the node in question from the parentNodes children array
+    parentNode.children.forEach(function(item, index){
+    if(parentNode.children[index].id == selectedNode.id){
+      parentNode.children.splice(index,1);
+    }
+    });
+
+    //If the parent was collapsed before, restore it to that state. 
+    if(collapsed){
+      toggleChildrenArrays(parentNode,true);
+    }
+
+    //Deactive and clear nodeEditor
+    selectedNode = undefined;
+    displayNodeInfo();
+    deactivateNodeEditor();
+    fadeOutNodes();
+    //If we delete a collapsed node the children wont get redrawn into the new hierarchy until the next draw graph call! 
+    //drawGraph(true);
+  }
+  //Delets selected and children of selected
+  if(recursive){
+    if(window.confirm("Do you really want to delete this whole branch?")){
+      //Remove the selected node from parent's children array does the whole job for us since this way the node and it's children 
+      //are no longer accessible by any other function
+      parentNode.children.forEach(function(item, index){
+        if(parentNode.children[index].id == selectedNode.id){
+          parentNode.children.splice(index,1);
+        }});
+      //Deactive and clear nodeEditor
+      selectedNode = undefined;
+      displayNodeInfo();
+      deactivateNodeEditor();
+      fadeOutNodes();
+    }
+    else{
+      return;
     }
   }
-    
-  //remove the node in question from the parentNodes children array
-  parentNode.children.forEach(function(item, index){
-  if(parentNode.children[index].id == selectedNode.id){
-    parentNode.children.splice(index,1);
-  }
-  });
-
-  //If the parent was collapsed renaem arrays again
-  if(pColl){
-    parentNode.children = undefined;
-  }
-
-  //Deactive and clear nodeEditor
-  selectedNode = undefined;
-  displayNodeInfo();
-  deactivateNodeEditor();
-  fadeOutNodes();
-  //If we delete a collapsed node the children wont get redrawn into the new hierarchy until the next draw graph call! 
-  //drawGraph(true);
 }
 
 /**

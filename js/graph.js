@@ -118,13 +118,13 @@ var dragHandler = d3.drag()
             dragging = false;
         }
 
-        drawGraph(true); 
+        drawGraph(); 
       }
       //If we didnt drop the node on another node, cancel the reposition
       else{
         d3.select(this)
           .attr("transform","translate("+d.xO+","+d.yO+")");
-        drawGraph(true);
+        drawGraph();
       }
       //restore pointer events for the element we dragged around
       d3.select(this)
@@ -224,7 +224,7 @@ function toggleCollapseNode(node){
     parentEl.classList.remove("collapsedGroup");
     }
 
-  drawGraph(true,node);
+  drawGraph();
 }
 
 /**
@@ -250,6 +250,7 @@ function clearGraph(){
       d3.select("#transformSvg").attr("transform","translate(0,0) scale(1)");
       nodeGroup.selectAll("g").remove();
       linkGroup.selectAll("pathA").remove();
+      d3.select("svg").remove();
 }
 
 /**
@@ -257,7 +258,7 @@ function clearGraph(){
  * 
  * @param {boolean} clear Should the function clear the svg node and link groups? and thus delete everything, e.g. do a clear redraw?
  */
-function drawGraph(clear,source) {
+function drawGraph() {
   //console.log("drawGraph");
 
   //Update globals
@@ -297,7 +298,6 @@ function drawGraph(clear,source) {
       //.call(zoom.transform, d3.zoomIdentity.translate(cWidth/2, 40).scale(1))
       .append("g")
       .attr("id","transformSvg")
-      //.attr("transform", "translate("+cWidth/2+",40)");
       //This adds two non nested groups to thetransformed group
       //and stores them in variables for later referencing
       linkGroup = svgContainer.append("g")
@@ -308,9 +308,9 @@ function drawGraph(clear,source) {
         .attr("id","nodesGroup");
      
     //Disable dblclick zoom, this is very important for our other dbl click events to work  
-     d3.select('#svgContainer svg').on("dblclick.zoom",null); 
-    // zoom.translateBy(d3.select('#transformSvg'),cWidth/2,40);
-    //centerNode(root);
+    d3.select('#svgContainer svg').on("dblclick.zoom",null); 
+    //Make sure the click function gets attached each time we have deleted svg - for instance when we hide unhide the editor
+    attachClickFunction();
   }
   // in case the container already exists, just get us some references to it! 
   else {
@@ -366,9 +366,10 @@ function drawGraph(clear,source) {
               }
               catch(err){
                 console.log("noParent");
+                return "translate("+d.x+","+d.y+")";
               }
               //return "translate("+parent.transform.animVal[0].matrix["e"]+","+parent.transform.animVal[0].matrix["f"]+")";
-              return "translate("+d.x+","+d.y+")";
+              //return "translate("+d.x+","+d.y+")";
           }
           else{
             return "translate("+d.x+","+d.y+")";
@@ -697,7 +698,7 @@ function attachClickFunction() {
   .on("click",function(){
     //Click with shift key to add node 
     if(d3.event.shiftKey){
-      addNode_UI();
+      addNode();
     }
     else {
       //If shift was not pressed we deselect the node
@@ -772,7 +773,7 @@ g.append("rect")
     toDisplay = jsonData;
     clearGraph();
     deselectNode();
-    drawGraph(true);
+    drawGraph();
     var domParent = getD3Node(d.id);    
     activateNode(d,domParent);
     centerNode(domParent.__data__);

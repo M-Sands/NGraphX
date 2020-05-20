@@ -25,6 +25,9 @@
 
 window.onresize = function() { 
     checkInline(); 
+    updateViewport();
+    clearGraph();
+    drawGraph();
 };
 
 /***************************************************************************
@@ -60,14 +63,19 @@ document.getElementById("nodeVis").addEventListener("keydown",function(e){
         //Since we are using keyboard shortcuts, lets keep the user in the loop by automatically selecting the parent of the node
         var pId = selectedNode.parentId;
         var cNode = getD3Node(pId);
-        deleteNodeFromHierarchy();
+        deleteNodeFromGraph();
         activateNode(cNode.__data__,cNode);
         centerNode(cNode.__data__);
     }
 
     // Add node to hierachy
     if(e.key === "Enter"){
-        addNode_UI();
+        addNode();
+    }
+
+    // Add node above current
+    if(e.key === "Insert"){
+        addNodeAbove();
     }
 
     // Collapse node 
@@ -95,28 +103,13 @@ document.getElementById("nodeVis").addEventListener("keydown",function(e){
     }
     //Switch to search bar
     if(e.key === "s"){
-        focusOn("toolbar");
+        //focusOn("toolbar");
         document.getElementById("searchInput").focus();
         e.preventDefault();
     }
 
 });
 
-// document.getElementById("nodeEditor").addEventListener("keydown",function(e){
-   
-// });
-
-document.getElementById("searchInput").addEventListener("focusin",function(e){
-  focusOn("toolbar");
-});
-
-document.getElementById("toolbar").addEventListener("keydown",function(e) {
-    //Pressing escape will go back to the node Graph
-    if(e.key === "Escape"){
-        focusOn("nodeVis"); 
-        document.getElementById("nodeVis").focus();
-    }
-});
 
 document.getElementById("searchInput").addEventListener("keydown",function(e) {
     if(e.key === "Enter"){
@@ -217,32 +210,7 @@ document.getElementById("nodeContent").addEventListener("keydown",function(e) {
 /*------------------------------------------------------------------------------------------------
     BUTTON ATTACHMENTS 
 -------------------------------------------------------------------------------------------------*/
-document.getElementById("startSearch").addEventListener("click", function() { 
-    searchNetwork();
-    focusOn("searchResults");
-    });
-
-document.getElementById("addNode").addEventListener("click", function() { 
-    addNode_UI();
-    });
-
-document.getElementById("deleteNode").addEventListener("click", function() { 
-    deleteNodeFromHierarchy();
-    });
-
-document.getElementById("saveLocally").addEventListener("click", function() { 
-    saveLocalFile(jsonData.name);
-    });
-
-document.getElementById("uploadNodes").addEventListener("click", function() { 
-    //Execute the file upload of the hidden element
-    document.getElementById("chooseJSONFile").click();
-    });
-
-document.getElementById("toggleEditor").addEventListener("click", function() { 
-	toggleEditor("nodeEditor");
-    });
-
+// FILE 
 document.getElementById("newNetwork").addEventListener("click", function() { 
     if(confirm("This will delete all current nodes, are you sure?")){
         newNetwork();
@@ -250,14 +218,84 @@ document.getElementById("newNetwork").addEventListener("click", function() {
     else{
         return;
     }
-    });
+});
+document.getElementById("saveLocally").addEventListener("click", function() { 
+    saveLocalFile((jsonData.name+".ngx"));
+});
+document.getElementById("uploadNodes").addEventListener("click", function() { 
+    //Execute the file upload of the hidden element
+    document.getElementById("chooseJSONFile").click();
+});
+
+// EDIT 
+document.getElementById("addNode").addEventListener("click", function() { 
+    addNode();
+});
+document.getElementById("addNodeAbove").addEventListener("click", function() { 
+    addNodeAbove();
+});
+document.getElementById("deleteNode").addEventListener("click", function() { 
+    deleteNodeFromGraph(false);
+});
+document.getElementById("deleteBranch").addEventListener("click", function() { 
+    deleteNodeFromGraph(true);
+});
+
+// VIEW 
+document.getElementById("centerSelected").addEventListener("click", function() { 
+	if(!selectedNode){
+        return;
+    }
+    centerNode(getD3Node(selectedNode.id).__data__);
+});
+document.getElementById("uncollapseBranch").addEventListener("click", function() { 
+	if(!selectedNode){
+        return;
+    }
+    uncollapseAll(selectedNode);
+    drawGraph();
+});
+document.getElementById("collapseBranch").addEventListener("click", function() { 
+	if(!selectedNode){
+        return;
+    }
+    collapseAll(selectedNode);
+    drawGraph();
+});
+document.getElementById("uncollapseAll").addEventListener("click", function() { 
+    uncollapseAll(jsonData);
+    drawGraph();
+});
+document.getElementById("collapseAll").addEventListener("click", function() { 
+    collapseAll(jsonData);
+    drawGraph();
+});
+document.getElementById("toggleEditor").addEventListener("click", function() { 
+	toggleEditor("nodeEditor");
+});
+
+document.getElementById("startSearch").addEventListener("click", function() { 
+    searchNetwork();
+    focusOn("searchResults");
+});
+
+
+
+
+
+
 
 
 //Closes the search results and displays the node editor again
 document.getElementById("closeSearchResults").addEventListener("click", function() { 
-        //Display the result List
         var rL = document.getElementById("searchResults");
         rL.style.display = "none";
+        //Expand the node content again
+        var nC = document.getElementById("nodeContent");
+        nC.parentElement.classList.remove("contentFRowCont");
+        nC.parentElement.classList.add("contentFRowExp");
+        var height = nC.parentElement.clientHeight;
+        document.getElementById("nodeContent").rows = (height / 21);
     });
 
 
@@ -271,34 +309,34 @@ function focusOn(element){
     var nE = document.getElementById("nodeEditor");
     var nV = document.getElementById("nodeVis");
     var sR = document.getElementById("searchResults");
-    var tB  = document.getElementById("toolbar");
+    // var tB  = document.getElementById("toolbar");
     
-    if(element === "toolbar"){
-        //Remove focus class from elements
-        if(nE){
-            nE.classList.remove("editorFocused");
-        }
-        if(nV){
-            nV.classList.remove("editorFocused");
-        }
-        if(sR){
-            sR.classList.remove("editorFocused");
-        }
-        //add focus class on elementsa
-        if(tB){
-            tB.classList.add("editorFocused");
-        }
-        return true;
-    }
+    // if(element === "toolbar"){
+    //     //Remove focus class from elements
+    //     if(nE){
+    //         nE.classList.remove("editorFocused");
+    //     }
+    //     if(nV){
+    //         nV.classList.remove("editorFocused");
+    //     }
+    //     if(sR){
+    //         sR.classList.remove("editorFocused");
+    //     }
+    //     //add focus class on elementsa
+    //     if(tB){
+    //         tB.classList.add("editorFocused");
+    //     }
+    //     return true;
+    // }
     
     if(element === "nodeVis"){
         //remove focus class
         if(nE){
             nE.classList.remove("editorFocused");
         }
-        if(tB){
-            tB.classList.remove("editorFocused");
-        }
+        // if(tB){
+        //     tB.classList.remove("editorFocused");
+        // }
         if(sR){
             sR.classList.remove("editorFocused");
         }
@@ -317,9 +355,9 @@ function focusOn(element){
         if(sR){
             sR.classList.remove("editorFocused");
         }
-        if(tB){
-            tB.classList.remove("editorFocused");
-        }
+        // if(tB){
+        //     tB.classList.remove("editorFocused");
+        // }
         
         //Add class to node Editor for focus
         if(nE){
@@ -340,9 +378,9 @@ function focusOn(element){
         if(nE){
             sR.classList.remove("editorFocused");
         }
-        if(tB){
-            tB.classList.remove("editorFocused");
-        } 
+        // if(tB){
+        //     tB.classList.remove("editorFocused");
+        // } 
         //Add focus 
         if(sR){
             sR.classList.add("editorFocused");
@@ -389,7 +427,7 @@ function toggleEditor(editorId)
             if(svg && svgContainer){
                 svgContainer.removeChild(svg);
             }
-            drawGraph(true);
+            drawGraph();
             centerNode(getD3Node(1).__data__);
         }
         else{
@@ -409,7 +447,7 @@ function toggleEditor(editorId)
         if(svg && svgContainer){
             svgContainer.removeChild(svg);
         }
-        drawGraph(true);
+        drawGraph();
         centerNode(getD3Node(1).__data__);
     }
 }
@@ -439,18 +477,22 @@ function checkInline(){
 /** Activates the node editor by adapting it's css
 */
 function activateNodeEditor() {
-    document.getElementById("nodeEditor").className="nodeEditor";
+    document.getElementById("nodeEditor").className="nodeEditor f1";
     document.getElementById("nodeName").disabled = false;
     // document.getElementById("parentName").disabled = true;
     document.getElementById("addTagButton").disabled = false;
-    document.getElementById("nodeContent").disabled = false;
+    //Find the height of the parent flex row div element and use that to find rows for textarea
+    var nC = document.getElementById("nodeContent");
+    nC.disabled = false;
+    var height = nC.parentElement.clientHeight;
+    document.getElementById("nodeContent").rows = (height / 21);
 }
 
 /** Deactivates the node editor by adapting it's css
 */
 function deactivateNodeEditor() {
     var tagButton = document.getElementById("addTagButton");
-    document.getElementById("nodeEditor").className="nodeEditorInactive";
+    document.getElementById("nodeEditor").className="nodeEditorInactive f1";
     document.getElementById("nodeName").disabled = true;
     // document.getElementById("parentName").disabled = true;
     tagButton.disabled = true;
@@ -646,7 +688,7 @@ function addTag() {
 /** Adds a new node either directly below the root node or below the currently selectedNode. This function prepares everything and 
  * creates the object itself assigning values to it. 
 */
-function addNode_UI() {
+function addNode() {
     var nN;
     var parentNode;
     //Without a valid selection we will add a completely new, parentless node to the network
@@ -689,7 +731,7 @@ function addNode_UI() {
             .classed("selectedGroup",false)
             .classed("unselectedGroup",true);
 
-        drawGraph(true);
+        drawGraph();
         return;
     }
     //If we have a selection,  we add the new node as a child
@@ -719,6 +761,7 @@ function addNode_UI() {
         //Sort children array 
         //sortChildren(parentNode,false);
         
+        //Save json to local storage
         storeJSONLocally();
         
         //destyle all selected nodes 
@@ -726,11 +769,67 @@ function addNode_UI() {
             .classed("selectedGroup",false)
             .classed("unselectedGroup",true);
 
-        drawGraph(true);
+        drawGraph();
         
         centerNode(getD3Node(selectedNode.id).__data__);
         return;
     }
+}
+
+/* Adds a node above the selected node. Saves some trouble if you want to recategorize, e.g. create a new node and then reparent everything into it 
+* is the same. But this function makes it easier
+*/
+function addNodeAbove(){
+    if(!selectedNode){
+        throw("I have no selection above which to add!");
+    }
+    //Prepare UI 
+    nN = document.getElementById("nodeName");
+    nN.value = "";
+    nN.focus();
+    clearTags();
+    addPlusButton();
+    document.getElementById("nodeContent").value="";
+    
+    //Save the parent node 
+    parentNode = findNodeWithID(jsonData,selectedNode.parentId);
+    if(!parentNode){
+        throw("Couldn't find parent node to add to. Aborting");
+    }
+
+    //Add an empty on which we can work - addTagToNode() for instace requires a valid selectedNode to add tags to! 
+    var orgSel = selectedNode;
+    selectedNode = {"name":"","id":getUnusedID(),"parentId":parentNode.id,"content":"","contentType":"text","tags":undefined,"children":undefined,"collapsed":false};
+
+    //If parent is collapsed, we uncollapse it
+    if(parentNode.collapsed){
+        toggleCollapseNode(getD3Node(parentNode.id));
+    }
+
+    //If the array is not yet initialized we do this now
+    if(parentNode.children === undefined){
+        parentNode.children = [];
+    }
+
+    //Add node above real Sel to parent
+    parentNode.children[parentNode.children.length] = selectedNode;
+    
+    //reparent original selection to new node 
+    reparentNode(orgSel.id,selectedNode.id);
+    
+    //Save json to local storage
+    storeJSONLocally();
+    
+    //destyle all selected nodes 
+    d3.select("svg").selectAll("g.nodes").selectAll("g")
+        .classed("selectedGroup",false)
+        .classed("unselectedGroup",true);
+
+    drawGraph();
+    
+    centerNode(getD3Node(selectedNode.id).__data__);
+    return;
+
 }
 
 /** Called when the user moves mouse focus away from the nodeName field or pressed enter while inside it 
@@ -738,7 +837,7 @@ function addNode_UI() {
 */
 function nameChanged(keyPressed) {
     
-    if(selectedNode.name == document.getElementById("nodeName").value){
+    if(selectedNode.name === document.getElementById("nodeName").value){
         //nothing changed abort
         return;
     }
@@ -809,7 +908,10 @@ function displayResults(list){
     //Display the result List
     var rL = document.getElementById("searchResults");
     rL.style.display = "flex";
-    
+    var nC = document.getElementById("nodeContent");
+    nC.rows=1;
+    nC.parentElement.classList.remove("contentFRowExp");
+    nC.parentElement.classList.add("contentFRowCont");
     //Clear the Result list and then populate it
     var ul = document.getElementById("resultList");
     while(ul.lastChild){
@@ -842,7 +944,7 @@ function displayResults(list){
                 //uncollapse all nodes that lead to the clicked one
                 uncollapsePathToNode(element);
                 //update the graph 
-                drawGraph(true);
+                drawGraph();
                 var n = getD3Node(this.id);
                 activateNode(n.__data__,n);
                 centerNode(n.__data__);
@@ -852,7 +954,7 @@ function displayResults(list){
                     //uncollapse all nodes that lead to the clicked one
                     uncollapsePathToNode(element);
                     //update the graph 
-                    drawGraph(true);
+                    drawGraph();
                     var n = getD3Node(this.id);
                     activateNode(n.__data__,n);
                     centerNode(n.__data__);
