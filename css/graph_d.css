@@ -1,0 +1,54 @@
+:root {
+    --nodePrim:rgb(247, 247, 247);
+    --nodeSecond: rgb(116, 116, 116);
+    --nodeSelected: rgb(209, 209, 209);
+    --nodeHover:rgb(175, 175, 175);
+    --highlight: rgb(252, 172, 0);
+    --collapsedHighlight: rgb(22, 115, 190);
+}
+
+/* Deactivate pointer events for text elements */
+text {
+    pointer-events: none;
+} 
+
+.unselectedGroup rect {
+    fill: var(--nodePrim);
+    stroke: var(--nodeSecond);
+    cursor: pointer; 
+}
+.unselectedGroup text {
+    fill:var(--text);
+}
+
+.selectedGroup rect {
+    fill: var(--nodeSelected);
+    stroke-width: 2px;
+    stroke: var(--highlight);
+}
+.selectedGroup text {
+    fill:rgb(30, 32, 36);
+}
+
+/* used when the mouse hovers over a node, and for drag and drop target marking */
+.hoverNode rect{
+    fill: var(--nodeHover);
+    stroke: var(--highlight);
+    stroke-width:3px;
+}
+.hoverNode text{
+    fill:rgb(41, 41, 41);
+    stroke-width: 1px;
+}
+
+/* Used when there is a collpsed group */
+.collapsedGroup rect{
+    stroke: var(--collapsedHighlight);
+    stroke-width: 2px;
+}
+
+.link {
+    fill: none;
+    stroke: rgb(171, 185, 185);
+    stroke-width: 1.5px;
+}

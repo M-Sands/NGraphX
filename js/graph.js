@@ -306,7 +306,41 @@ function drawGraph() {
       nodeGroup = svgContainer.append("g")
         .classed("nodes",true)
         .attr("id","nodesGroup");
-     
+      
+      //Create the dropshadow filters 
+      defs = svgContainer.append("defs")
+      filters = defs.append("filter")
+        .attr("id","dropShadow")
+        .attr("x","-5%")
+        .attr("y","-5%")
+        .attr("width","200%")
+        .attr("height","200%")
+
+      filters.append("feOffset")
+        .attr("result","offOut")
+        .attr("in","SourceAlpha")
+        .attr("dx",7)
+        .attr("dy",7)
+
+      filters.append("feColorMatrix")
+        .attr("result","matrixOut")
+        .attr("in","offOut")
+        .attr("type","matrix")
+        .attr("values","0.2 0 0 0 0\
+         0 0.2 0 0 0\
+         0 0 0.2 0 0\
+         0 0 0 0.2 0")
+
+      filters.append("feGaussianBlur")
+        .attr("result","blurOut")
+        .attr("in","matrixOut")
+        .attr("stdDeviation",5)
+
+      filters.append("feBlend")
+        .attr("in","SourceGraphic")
+        .attr("in2","blurOut")
+        .attr("mode","normal")
+
     //Disable dblclick zoom, this is very important for our other dbl click events to work  
     d3.select('#svgContainer svg').on("dblclick.zoom",null); 
     //Make sure the click function gets attached each time we have deleted svg - for instance when we hide unhide the editor
@@ -393,6 +427,7 @@ function drawGraph() {
         })
         .attr("rx",5)
         .attr("ry",5)
+        
         .attr("width",function(d) {
           return d.tWidth + paddingLR;
         })
@@ -422,7 +457,11 @@ function drawGraph() {
           }*/
           //On double click
           toggleCollapseNode(d);
-        });
+        })
+      //Add dropshadow filter
+      .attr("filter","url(#dropShadow)");
+
+
       //Add the text on top of the rect    
       g.append("text")
         //relative positioning of the text inside its parent element
@@ -473,7 +512,7 @@ function drawGraph() {
       .data(root.links(),function(d){return d.target.data.id;})
       .join(
         enter => {enter
-          .append('path')
+          .append('path')       
           .classed('link', true)
           .call(enter => enter.transition(t)
           .delay(300)

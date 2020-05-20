@@ -56,6 +56,7 @@ function loadNodes(input){
     getNameLengths(jsonData);
     maxNameLength = (Math.max.apply(Math,nameLengths));
     getAllIDs(jsonData,indexArray);
+    conform(jsonData);
     sortChildren(jsonData,true);
     toDisplay = jsonData;
     drawGraph(true);
@@ -167,6 +168,52 @@ function findNodeWithID(startNode, id) {
   return undefined;
 }
 
+/**Conforms the data to the current status quo and makes sure that mistakes in the file are corrected befre loading. 
+ * E.g collapsed = true although nodes have no children etc. 
+ * @param {Node} StartNode The node to start conforming at. Recursive on all children by default.
+ */
+function conform(startNode){
+  if(!startNode){return;}
+
+  //Some basic sanity checks which are not recuperable 
+  if(!startNode.hasOwnProperty("id")){
+    window.alert("This file does not seem to be a valid NGX file. Reason: No Id property found");
+    throw("Could not read this file - id property of node missing.");
+  }
+
+  if(!startNode.hasOwnProperty("parentId")){
+    window.alert("This file does not seem to be a valid NGX file. Reason: No parentId property found");
+    throw("Could not read this file - parentId property of node missing.");
+  }
+
+  //Check for all required properties
+  if(!startNode.hasOwnProperty("collapsed")){
+    startNode.collapsed="false";
+  }
+
+
+  //Make the children data accessible to us
+  var collapsed = toggleChildrenArrays(startNode,false);
+
+  //Check that a node that has no children has collapsed set to false
+  if(!hasChildren(startNode)){
+    startNode.collapsed = false;
+  }
+  
+  
+  //Call recursively 
+  if(hasChildren(startNode)){
+    for(c of startNode.children){
+      conform(c);
+    }
+  }
+
+  //Recollapse children data if it was collapsed before
+  if(collapsed){
+    toggleChildrenArrays(startNode,true);
+  }
+
+}
 /** Takes the highest ID NUmber found in the current node hierarchy and increments it by one, delivering us a fresh id to use
 * We could save a lot of recursion by building this array once at programm startup and then just adding to it the right way! 
 **/
@@ -502,6 +549,8 @@ function deleteNodeFromGraph(recursive) {
     displayNodeInfo();
     deactivateNodeEditor();
     fadeOutNodes();
+    //Makre sure the children of the parent node are sorted again so that traversing the nodes still works as expected
+    sortChildren(parentNode,false);
     //If we delete a collapsed node the children wont get redrawn into the new hierarchy until the next draw graph call! 
     //drawGraph(true);
   }
@@ -828,6 +877,9 @@ function findNodes(query, searchMode){
  */
 function collapseAll(startNode){
   if(!startNode) { return; }
+  if(!hasChildren(startNode)){
+    return;
+  }
 
   startNode.collapsed = true;
  

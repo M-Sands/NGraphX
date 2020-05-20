@@ -220,11 +220,15 @@ document.getElementById("newNetwork").addEventListener("click", function() {
     }
 });
 document.getElementById("saveLocally").addEventListener("click", function() { 
-    saveLocalFile((jsonData.name+".ngx"));
+    saveLocalFile(jsonData,(jsonData.name+".ngx"),true);
 });
 document.getElementById("uploadNodes").addEventListener("click", function() { 
     //Execute the file upload of the hidden element
     document.getElementById("chooseJSONFile").click();
+});
+document.getElementById("exportBranch").addEventListener("click", function() { 
+    //Execute the file upload of the hidden element
+    exportBranch();
 });
 
 // EDIT 
@@ -274,16 +278,21 @@ document.getElementById("toggleEditor").addEventListener("click", function() {
 	toggleEditor("nodeEditor");
 });
 
+document.getElementById("openOptions").addEventListener("click", function() { 
+	displayOptions();
+});
+
 document.getElementById("startSearch").addEventListener("click", function() { 
     searchNetwork();
     focusOn("searchResults");
 });
 
-
-
-
-
-
+document.getElementById("cancelOptions").addEventListener("click", function() { 
+	closeOptions();
+});
+document.getElementById("saveOptions").addEventListener("click", function() { 
+	saveOptions();
+});
 
 
 //Closes the search results and displays the node editor again
@@ -309,34 +318,12 @@ function focusOn(element){
     var nE = document.getElementById("nodeEditor");
     var nV = document.getElementById("nodeVis");
     var sR = document.getElementById("searchResults");
-    // var tB  = document.getElementById("toolbar");
-    
-    // if(element === "toolbar"){
-    //     //Remove focus class from elements
-    //     if(nE){
-    //         nE.classList.remove("editorFocused");
-    //     }
-    //     if(nV){
-    //         nV.classList.remove("editorFocused");
-    //     }
-    //     if(sR){
-    //         sR.classList.remove("editorFocused");
-    //     }
-    //     //add focus class on elementsa
-    //     if(tB){
-    //         tB.classList.add("editorFocused");
-    //     }
-    //     return true;
-    // }
     
     if(element === "nodeVis"){
         //remove focus class
         if(nE){
             nE.classList.remove("editorFocused");
         }
-        // if(tB){
-        //     tB.classList.remove("editorFocused");
-        // }
         if(sR){
             sR.classList.remove("editorFocused");
         }
@@ -355,10 +342,6 @@ function focusOn(element){
         if(sR){
             sR.classList.remove("editorFocused");
         }
-        // if(tB){
-        //     tB.classList.remove("editorFocused");
-        // }
-        
         //Add class to node Editor for focus
         if(nE){
             //Only give "focus" if active
@@ -378,9 +361,6 @@ function focusOn(element){
         if(nE){
             sR.classList.remove("editorFocused");
         }
-        // if(tB){
-        //     tB.classList.remove("editorFocused");
-        // } 
         //Add focus 
         if(sR){
             sR.classList.add("editorFocused");
@@ -391,6 +371,19 @@ function focusOn(element){
         return true;
     }
 
+    //Removes focus from everything if nothing valid specified
+    else {
+        if(sR){
+            sR.classList.remove("editorFocused");
+        }
+        if(nV){
+            nV.classList.remove("editorFocused");
+        } 
+        if(nE){
+            sR.classList.remove("editorFocused");
+        }
+
+    }
 }
 
 /*-----------------------------------
@@ -398,16 +391,31 @@ function focusOn(element){
     BUTTONS 
 ----------------------------------#*/
 
-
 //Allows the user to store the current node network as a json file and also stores it in the local storage
-function saveLocalFile(filename) {
+function saveLocalFile(dataPath, filename, updateLocalStorage) {
+    if(!dataPath){
+        throw("Unexpected error, the datapath to save is invalid!");
+    }
+
     var a = document.createElement("a");
-    a.setAttribute("href","data:text/plain;charset=utf-8,"+encodeURIComponent(JSON.stringify(jsonData)));
+    a.setAttribute("href","data:text/plain;charset=utf-8,"+encodeURIComponent(JSON.stringify(dataPath)));
     a.setAttribute("download",filename);
     a.setAttribute("id","downloadObject");
     a.click();
     a.remove();
-    storeJSONLocally();
+    
+    if(updateLocalStorage){
+        storeJSONLocally();
+    }
+}
+
+/* Saves the selected node and it's children as a new file with the selecteds node name as filename */
+function exportBranch(){
+    if(!selectedNode){
+        window.alert("Please select a node before trying to export a branch!");
+        throw("Could not export this branch: nothing selected");
+    } 
+    saveLocalFile(selectedNode,(selectedNode.name+".ngx"),true);
 }
 
 // Toggles the Node Editor on or off by changing it's display style and the gridTemplateColumns of the secondary wrapper that contains it
@@ -469,7 +477,6 @@ function checkInline(){
     }
 }
 
-
 //-----------------------------------
 //   USER INTERFACE
 //-----------------------------------
@@ -481,11 +488,16 @@ function activateNodeEditor() {
     document.getElementById("nodeName").disabled = false;
     // document.getElementById("parentName").disabled = true;
     document.getElementById("addTagButton").disabled = false;
+    
     //Find the height of the parent flex row div element and use that to find rows for textarea
-    var nC = document.getElementById("nodeContent");
-    nC.disabled = false;
-    var height = nC.parentElement.clientHeight;
-    document.getElementById("nodeContent").rows = (height / 21);
+    //First check if the search results are visible though - this prevents size increases in the content field while search results are displayed
+    var rL = document.getElementById("searchResults");
+    if(rL.style.display === "none"){
+        var nC = document.getElementById("nodeContent");
+        nC.disabled = false;
+        var height = nC.parentElement.clientHeight;
+        document.getElementById("nodeContent").rows = (height / 21);
+    }
 }
 
 /** Deactivates the node editor by adapting it's css
@@ -544,6 +556,37 @@ function displayNodeInfo() {
     }
 }
 
+/*Displays the window with the options for NGraphX 
+*
+*/
+function displayOptions(){
+
+    var oW = document.getElementById("optionsWindow");
+    if(!oW){return;}
+
+    focusOn("nothing");
+    var width = oW.parentElement.clientWidth;
+    var height = oW.parentElement.clientHeight;
+
+    oW.style.display="block";
+    oW.style.top = ((height*20/100)/2);
+    oW.style.left = ((width*20/100)/2);
+
+}
+
+function closeOptions(){
+    var oW = document.getElementById("optionsWindow");
+    if(!oW){return;}
+    oW.style.display = "none";
+}
+
+function saveOptions(){
+    var oW = document.getElementById("optionsWindow");
+    if(!oW){return;}
+
+    closeOptions();
+}
+
 /** Populates the tag container with the tags currently assigned to selectedNode 
  *  for every tag associated with the node we create a tagButton and set its onClick actions
  *  ctrl clicking for instance removes tags. Single clicking activates tag editing for the clicked 
@@ -599,7 +642,7 @@ function addPlusButton() {
     if(pB == undefined) {
         pB = document.createElement("input");
     }
-    pB.className = "tagButton tagButtonPlus";
+    pB.className = "tagButton buttonHighlight";
     pB.type = "button";
     pB.id = "addTagButton";
     pB.value ="+";
@@ -900,18 +943,20 @@ function searchNetwork(){
     findNodes(searchString,searchMode);
 }
 
-/** This displays the search results into the search result area. It hides the nodeEditor, unhides the searchResults
- *  div and then after clearing it out populates it.
+/** This displays the search results into the search result area. 
  * @param {Array} list Array containing the nodes that the search function returned
  */
 function displayResults(list){
     //Display the result List
     var rL = document.getElementById("searchResults");
     rL.style.display = "flex";
+    
     var nC = document.getElementById("nodeContent");
     nC.rows=1;
     nC.parentElement.classList.remove("contentFRowExp");
     nC.parentElement.classList.add("contentFRowCont");
+    
+    
     //Clear the Result list and then populate it
     var ul = document.getElementById("resultList");
     while(ul.lastChild){

@@ -25,61 +25,76 @@
     <meta charset="utf-8">
     <title>NGraphX</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <link href="css/style.css" rel="stylesheet" media="all">
-    <link href="css/graph.css" rel="stylesheet" media="all">
+    <link href="css/style_d.css" rel="stylesheet" media="all">
+    <link href="css/graph_d.css" rel="stylesheet" media="all">
     <LINK rel="icon" href="img/favicon.ico"> 
 </head>
 <body>
 <div class="mainWrapper">
-            <div class="searchBar">
-                <input class="input2d f2" type="text" placeholder="Search for..." size="50" name="searchInput" id="searchInput">
-                <select class="dropDown f1" name="searchMode" id="searchMode" size="1">
-                    <option>Everything</option>
-                    <option>Names</option>
-                    <option>Tags</option>
-                    <option>Content</option>
-                </select>
-                <input class="button2d buttonHighlight f3" type="button" value="Go" id="startSearch"/>
+    <div id="optionsWindow" class="optionsW">
+        <div class="flexRowDiv centerContent">
+        <h3>NGraphx Options</h3>
+        </div>
+        <div class="flexRowDiv">
+            <label class="nELabel" for="nodeName">Link to save.php: </label>
+            <input class="input2d" type="text" name="nodeName" id="nodeName"/>
+        </div>
+        <div class="flexRowDiv">
+            <label class="nELabel" for="nodeName">Link to load.php: </label>
+            <input class="input2d" type="text" name="nodeName" id="nodeName"/>
+        </div>
+        <div class="flexRowDiv centerContent">
+            <input class="button2d" type="button" value="Save Options" id="saveOptions"/>
+            <input class="button2d" type="button" value="Cancel" id="cancelOptions"/>
+        </div>
+    </div>
+        <div class="searchBar">
+            <input class="input2d f2" type="text" placeholder="Search for..." size="50" name="searchInput" id="searchInput">
+            <select class="dropDown f1" name="searchMode" id="searchMode" size="1">
+                <option>Everything</option>
+                <option>Names</option>
+                <option>Tags</option>
+                <option>Content</option>
+            </select>
+            <input class="button2d buttonHighlight f3" type="button" value="Go" id="startSearch"/>
+        </div>
+        <div class="buttonBar">
+            <div class="dropdown f1">
+                <input class="button2d dropBtn" type="button" id="moreOptions" value="File"/>
+                <div class="dropdownContent">
+                    <input class="button2d droppedButton" type="button" value="New Network" id="newNetwork"/>
+                    <input class="button2d droppedButton" type="button" value="Save Local File" id="saveLocally"/>
+                    <input type="file" name="chooseJSONFIle" id="chooseJSONFile" style="display:none;" onchange="loadNodes(this)"/>
+                    <input class="button2d droppedButton" type="button" value="Load Local File" id="uploadNodes"/>
+                    <input class="inactiveButton droppedButton" type="button" value="Save To Server" id="saveLocally"/>
+                    <input class="inactiveButton droppedButton" type="button" value="Load From Server" id="saveLocally"/>
+                    <input class="button2d droppedButton" type="button" value="Export Branch" id="exportBranch"/>
+                    <input class="inactiveButton droppedButton" type="button" value="Merge with File" id="saveLocally"/>
+                </div>
             </div>
-            <div class="buttonBar">
-                <div class="dropdown f1">
-                    <input class="button2d dropBtn" type="button" id="moreOptions" value="File"/>
-                    <div class="dropdownContent">
-                        <input class="button2d droppedButton" type="button" value="New Network" id="newNetwork"/>
-                        <input class="button2d droppedButton" type="button" value="Save Local File" id="saveLocally"/>
-                        <input type="file" name="chooseJSONFIle" id="chooseJSONFile" style="display:none;" onchange="loadNodes(this)"/>
-                        <input class="button2d droppedButton" type="button" value="Load Local File" id="uploadNodes"/>
-                        <input class="inactiveButton droppedButton" type="button" value="Save To Server" id="saveLocally"/>
-                        <input class="inactiveButton droppedButton" type="button" value="Load From Server" id="saveLocally"/>
-                        <input class="inactiveButton droppedButton" type="button" value="Export Branch" id="saveLocally"/>
-                        <input class="inactiveButton droppedButton" type="button" value="Merge with File" id="saveLocally"/>
-                    </div>
+            <div class="dropdown f1">
+                <input class="button2d dropBtn" type="button" id="moreOptions" value="Edit"/>
+                <div class="dropdownContent">
+                    <input class="button2d droppedButton" type="button" value="Add Node" id="addNode"/>
+                    <input class="button2d droppedButton" type="button" value="Insert Node Above" id="addNodeAbove"/>
+                    <input class="button2d droppedButton" type="button" value="Delete Node" id="deleteNode"/>
+                    <input class="button2d droppedButton" type="button" value="Delete Branch" id="deleteBranch"/>
                 </div>
-                <div class="dropdown f1">
-                    <input class="button2d dropBtn" type="button" id="moreOptions" value="Edit"/>
-                    <div class="dropdownContent">
-                        <input class="button2d droppedButton" type="button" value="Add Node" id="addNode"/>
-                        <input class="button2d droppedButton" type="button" value="Insert Node Above" id="addNodeAbove"/>
-                        <input class="button2d droppedButton" type="button" value="Delete Node" id="deleteNode"/>
-                        <input class="button2d droppedButton" type="button" value="Delete Branch" id="deleteBranch"/>
-                    </div>
-                </div>
-                <div class="dropdown f1">
-                    <input class="button2d dropBtn" type="button" id="moreOptions" value="View"/>
-                    <div class="dropdownContent">
-                        <input class="button2d droppedButton" type="button" value="Center Selected" id="centerSelected"/>
-                        <input class="button2d droppedButton" type="button" value="Uncollapse Branch" id="uncollapseBranch"/>
-                        <input class="button2d droppedButton" type="button" value="Collapse Branch" id="collapseBranch"/>
-                        <input class="button2d droppedButton" type="button" value="Uncollapse All" id="uncollapseAll"/>
-                        <input class="button2d droppedButton" type="button" value="Collapse All" id="collapseAll"/>
-                        <input class="button2d droppedButton" type="button" value="Toggle Editor" id="toggleEditor"/>
-                    </div>
-                </div>
-                <input class="inactiveButton droppedButton f1" type="button" value="Options" id="saveLocally" />
-                <a href="help.html" target="blank" class="button2d f1" type="button" value="Help" id="helpButton"/>Help/About</a>
             </div>
-        
-
+            <div class="dropdown f1">
+                <input class="button2d dropBtn" type="button" id="moreOptions" value="View"/>
+                <div class="dropdownContent">
+                    <input class="button2d droppedButton" type="button" value="Center Selected" id="centerSelected"/>
+                    <input class="button2d droppedButton" type="button" value="Uncollapse Branch" id="uncollapseBranch"/>
+                    <input class="button2d droppedButton" type="button" value="Collapse Branch" id="collapseBranch"/>
+                    <input class="button2d droppedButton" type="button" value="Uncollapse All" id="uncollapseAll"/>
+                    <input class="button2d droppedButton" type="button" value="Collapse All" id="collapseAll"/>
+                    <input class="button2d droppedButton" type="button" value="Toggle Editor" id="toggleEditor"/>
+                </div>
+            </div>
+            <input class="button2d droppedButton f1" type="button" value="Options" id="openOptions" />
+            <a href="help.html" target="blank" class="button2d f1" type="button" value="Help" id="helpButton"/>Help/About</a>
+        </div>
         <div class="secondaryWrapper" id="secondaryWrapper">
         <div class="nodeEditorInactive f1" id="nodeEditor">
                 <div class="flexRowDiv">
@@ -89,7 +104,7 @@
                 <div class="flexRowDiv">
                     <label class="nELabel">Tags :</label>
                     <div class="tagContainer" id="tagContainer">
-                        <input class="tagButton tagButtonPlus" type="button" id="addTagButton" value="+" tabindex="2">
+                        <input class="tagButton buttonHighlight" type="button" id="addTagButton" value="+" tabindex="2">
                     </div>
                 </div>
                 <div class="contentFRowExp">
@@ -118,7 +133,7 @@
         <div class="footer">
             <small>NGraphX - Copyright Malte Sandschulte 2020</small> 
         </div>
-    </div>
+</div>
     
 <script src="js/variables.js"></script>
 <script src="js/graph.js"></script>

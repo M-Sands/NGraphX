@@ -1,0 +1,522 @@
+/**********************************************************************
+*
+* NGraphX 
+* Your knowledge in a graph! 
+* Copyright (C) 2020 Malte Sandschulte studio(at)sandschulte.com
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*
+************************************************************************/
+
+/** CSS Variables **/
+:root {
+    
+    --backgroundColour: rgb(247, 247, 247);
+    --paddingLeftRight: 0.5rem;
+    --paddingTopBottom: 0.5rem;
+    --gridGap: 0.15rem;
+
+    /* GENERAL */
+    --elBorderRadius: 5px;
+    --text: rgb(54, 54, 54);
+    --outlineFocus: solid white 2px;
+    --borderColour: rgb(107, 107, 107);
+
+    /* EDITORS */
+    --editorBorder: solid 4px var(--highContrast);
+    --editorBorderRadius: 10px;
+    --editorBG:rgb(247, 247, 247);
+    --editorBackgroundInactive: rgb(247, 247, 247);
+
+    /* INPUTS */
+    --inputBackground: rgb(255, 255, 255);
+    --inputBackgroundFocus: rgb(255, 255, 255);
+    --inputBackgroundInactive: rgb(216, 216, 216);
+    --inputText: rgb(49, 49, 49);
+    --inputTextInactive: rgb(45, 45, 45);
+
+    /* BUTTON VARIABLES */
+    --buttonBG: rgb(243, 242, 242);
+    --buttonBorder: solid 1px rgb(75, 75, 75);
+    --buttonHoverBG: rgb(194, 193, 193);
+    --buttonHoverBorder: rgb(88, 88, 88);
+    --buttonText: var(--text);
+
+    --highContrast:rgb(216, 164, 51);
+    --highContrastHover:rgb(250, 175, 15);
+
+}   
+
+html {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden; /* hides the horizontal scrollbar */
+}
+
+body {
+    background: var(--backgroundColour);
+    padding:0.5rem;
+}
+
+.footer {
+    text-align: right;
+    padding-right: 0.5rem;
+    font-size:0.7rem;
+}
+
+/* prevent mac restyling */
+
+.button2d, .inactiveButton, .input2d, .tagButton, .tagButtonPlus,
+.tagButtonInput {
+-webkit-appearance: none;
+}
+
+/* Prevent firefox inner focus */
+.button2d::-moz-focus-inner {
+    border: 0 !important;
+  }
+:focus::-moz-focus-inner{
+    border:0 !important;
+}
+:focus::-moz-focus-outer{
+    border:0 !important;
+}
+
+select:-moz-focusring { color: transparent; }
+
+a.button2d{
+    text-align:center;
+    text-decoration: none;
+}
+
+.button2d {
+    background: var(--buttonBG);
+    color: var(--buttonText);
+    padding: var(--paddingTopBottom) var(--paddingLeftRight);
+    margin: 0.1rem;
+    font-size: 1rem;
+    border:1px rgb(75, 75, 75) solid;
+    outline:none;
+    border-radius: var(--elBorderRadius);
+    transition: all 200ms;
+}
+/* .button2d:focus,  */
+ .button2d:hover{
+    background: var(--buttonHoverBG);
+    border:var(--buttonBorder);   
+} 
+
+
+.dropdown {
+    display:flex;
+    flex-direction: column; 
+    position:relative;
+} 
+
+.dropdownContent {
+    display: none;
+    position: absolute;
+    top:2.6rem;
+    left:0.1rem;
+    padding:0.3rem;
+    z-index: 1;
+    background-color:rgba(241,241,241,1);
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+
+ .dropdown:hover .dropdownContent{
+    display: inline-block;
+    z-index: 100;
+}
+
+.droppedButton {
+    width:100%;
+}
+
+/* GO BUTTON STYLING */
+
+.buttonHighlight {
+    background-color: var(--highContrast);
+}
+
+.buttonHighlight:hover, .buttonHighlight:focus{
+    background-color: var(--highContrastHover);
+}
+
+
+.inactiveButton {
+    background-color: var(--buttonBG);
+    opacity: 0.6;
+    font-size: 0.9rem;
+    color: var(--inputTextInactive);
+    padding: var(--paddingTopBottom) var(--paddingLeftRight);
+    margin: 0.1rem;
+    border: 1px solid var(--editorBG);
+    border-radius: var(--elBorderRadius);
+}
+
+.input2d {
+    font-size: 1rem;
+    line-height: 1rem;
+    padding: var(--paddingTopBottom) var(--paddingLeftRight);
+    margin:0.1rem;
+    box-sizing: border-box;
+    border: 1px solid var(--borderColour);
+
+    border-radius: var(--elBorderRadius);
+    background-color: var(--inputBackground);
+    color: var(--inputText);
+}
+
+.input2d:focus {
+    background-color: var(--inputBackgroundFocus);
+}
+
+.optionsW {
+    display:none;
+    position: absolute;
+    background-color: rgba(255,255,255,0.89);
+    width:70%;
+    height:70%;
+    z-index: 1;
+    padding:3rem;
+    border: var(--editorBorder);
+}
+
+.mainWrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0.4rem;
+    height: 98%;
+}
+
+
+.editorFocused {
+    border: var(--editorBorder) !important;
+}
+
+
+.searchBar { 
+    display: flex;
+    flex:1;
+    line-height: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.searchbar .dropDown {
+    background-color: var(--inputBackground);
+    border:0;
+    margin:0.1rem;
+    font-size: 1rem;
+    text-align: center;
+    text-align-last:center;
+    color: var(--inputText);
+    border: 1px solid var(--borderColour);
+    border-radius: var(--elBorderRadius);
+    /* Make the dropdown arrow disappear */
+    appearance:none;
+    -webkit-appearance: none;
+    /* -moz-appearance: none; */
+}
+.searchBar .dropDown:focus{
+    border:var(--buttonBorder); 
+    outline: none;
+    background-color: var(--inputBackgroundFocus);
+}
+
+.buttonBar {
+    display:flex;
+    flex-direction:row;
+    margin-bottom:0.75rem;
+}
+
+/* ######### SECONDARY WRAPPER ############# */
+
+.secondaryWrapper {
+    display:flex;
+    flex-direction:row;
+    height:100%;
+    margin-bottom:0.75rem;
+}
+
+/* ######### NODE EDITOR ############# */
+.nodeEditor {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    color: var(--text);
+    background-color: var(--editorBG);
+    border-radius: var(--editorBorderRadius);
+    border: var(--editorBorder);
+    border-color: var(--backgroundColour);
+    font-size: 1rem;  
+    margin-right: 0.5rem;
+    min-height: 0; /* flexbox automatically set to min-height: auto thus overflowing it's parent elements! */
+    min-width: 0;
+}
+
+div.nodeEditor .nELabel {
+    display: flex;
+    flex:1;
+}
+
+div.nodeEditor .input2d {
+    display:flex;
+    flex:3;
+}
+
+div.nodeEditor .input2d:focus{
+    border: 1px solid var(--borderColour);
+}
+
+div.nodeEditor textarea{
+    border: 1px solid var(--borderColour);
+    line-height: 1.2rem;
+}
+
+div.nodeEditor textarea:focus{
+    background-color: var(--inputBackgroundFocus);
+}
+
+.tagContainer {
+    display: flex;
+    flex:3;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+.tagButton {
+    display: flex;
+    flex: 1;
+    font-size: 1rem;
+    padding: var(--paddingTopBottom) var(--paddingLeftRight);
+    border-radius: var(--elBorderRadius);
+    /* border-color: var(--buttonBorder); */
+    background-color: var(--buttonBG);
+    color:var(--buttonText);
+    border-width: 0px;
+    /* outline:none; */
+    margin:0.1rem;
+    -webkit-appearance: none;
+}
+
+.tagButton:hover {
+    transition-duration: 300ms;
+    background-color: var(--buttonHoverBG);
+}
+
+.tagButtonPlus {
+    background-color: var(--highContrast);
+    border: 1px solid var(--buttonBG);
+}
+
+
+.tagButtonPlus:focus, .tagButtonPlus:hover {
+    border: var(--buttonBorder);
+}
+
+.tagButtonInput {
+    display:flex;
+    flex:1;
+    padding: var(--paddingTopBottom) var(--paddingLeftRight);
+    margin:0.1rem;
+    line-height: 1rem;
+    border-radius: var(--elBorderRadius);
+    border: 2px solid white;
+    background-color: var(--inputBackgroundFocus);
+    font-size:1rem;
+    color: var(--inputText);
+}
+
+.contentTextArea {
+    display:flex;
+    flex:3;
+    border-radius: var(--elBorderRadius);
+    border: 1px solid var(--borderColour);
+    background-color: var(--inputBackground);
+    padding: var(--paddingTopBottom) var(--paddingLeftRight);
+    font-family: inherit;
+    font-size: inherit;
+    color:var(--inputText);
+    resize:none;
+}
+
+/* ##################################################
+## INACTIVE NODE EDITOR 
+##
+#####################################################
+*/
+.nodeEditorInactive {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    color: var(--inputTextInactive);
+    background-color: var(--editorBackgroundInactive);
+    font-size: 1rem;  
+    margin-right: 0.5rem;
+    border-radius: var(--editorBorderRadius);
+    /* Copy styling for border then overwrite border color */
+    border: var(--editorBorder);
+    border-color: var(--backgroundColour);
+    min-height:0;
+}
+
+/* This allows us to style all inputs of the div of class nodeEditorINactive ... */ 
+/* use this to restyle all sub elements of the editor when it gets deactivated !*/
+
+div.nodeEditorInactive .input2d {
+    display: flex;
+    flex:3;
+    background-color: var(--inputBackgroundInactive);
+    color: var(--textInactive);
+    opacity: 0.6;
+}
+
+div.nodeEditorInactive .inactiveButton {
+    display: flex;
+    flex: 1;
+}
+
+div.nodeEditorInactive textarea {
+    display: flex;
+    flex: 3;
+    box-sizing: border-box;
+    background-color: var(--inputBackgroundInactive);
+    opacity:0.6;
+}
+
+.nodeEditorInactive .nELabel {
+    display: flex;
+    flex:1;
+    opacity:0.4;
+}
+
+
+/* Result list styling */
+
+.flexRowDiv {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding:0.5rem;
+}
+
+.centerContent {
+    justify-content: center;
+}
+
+.contentFRowExp {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding:0.5rem;
+    flex:1;
+    align-items: baseline;
+}
+
+.contentFRowCont{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding:0.5rem;
+    align-items: baseline;
+}
+
+/* .rowOne {
+    flex:1;
+} */
+
+.flexColDiv {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    /* min-height: 0; */
+}
+
+.colOne{
+    flex:1;
+}
+
+.f1 {
+    flex: 1;
+}
+.f2 {
+    flex: 2;
+}
+.f3 {
+    flex: 3;
+}
+.f4 {
+    flex: 4;
+}
+
+.searchResults {
+    flex-direction: column;
+    flex: 2;
+    color: var(--text);
+    border: var(--editorBorder);
+    border-color: var(--editorBG);
+    background-color: var(--editorBG);
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+    overflow:auto;
+}
+
+.searchResults .button2d {
+    flex-grow: 1;
+}
+
+.searchResults h2{
+    flex-grow: 2;
+}
+
+.resultList {
+    list-style-type: none;
+    padding: 0.5rem;
+}
+
+/* Search result LI elements */
+.resultList li {
+    background-color:var(--buttonBG);
+    border-radius: var(--elBorderRadius);
+    border: var(--buttonBorder);
+    border-color: var(--editorBG);
+    margin: 0.25rem;
+    font-size: 1rem;
+    padding: 0.5rem;
+    text-align: center;
+    
+}
+.resultList li:hover, .resultList li:focus{
+    background-color:var(--buttonHoverBG); 
+    border:var(--buttonBorder);
+}
+
+.nodeVis {
+    display: grid;
+    border-radius: 10px;
+    background-color:var(--editorBG);
+    border: var(--editorBorder);
+    border-color: var(--backgroundColour);
+}
+
+.svgContainer {
+    outline:none;
+    border:0;
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    overflow: hidden;
+}
